@@ -1,0 +1,41 @@
+{
+  "name": "shoggoth-tdd",
+  "version": "0.0.1",
+  "description": "Self healing LLM-assisted test driven development 🐙",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "test",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "run": "tsc && node dist/index.js",
+    "postinstall": "tsc"
+  },
+  "bin": {
+    "shoggoth-tdd": "./dist/index.js"
+  },
+  "keywords": [
+    "TTD",
+    "GPT3",
+    "GPT4",
+    "GPT4",
+    "Test",
+    "automation"
+  ],
+  "author": "Dion Yiw",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "commander": "^10.0.0",
+    "execa": "^7.1.1",
+    "inquirer": "^9.1.5",
+    "openai": "^3.2.1",
+    "ora": "^6.3.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^18.15.11",
+    "eslint": "^8.38.0",
+    "prettier": "^2.8.7"
+  }
+}
