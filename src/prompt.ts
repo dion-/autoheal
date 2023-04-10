@@ -1,11 +1,11 @@
 import chalk from "chalk";
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY as string,
-});
-const openai = new OpenAIApi(configuration);
 export async function prompt(messages: ChatCompletionRequestMessage[], model: 'gpt-3.5-turbo' | 'gpt-4') {
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY as string,
+  });
+  const openai = new OpenAIApi(configuration);
   try {
     const searchTermsResponse = await openai.createChatCompletion({
       model,
