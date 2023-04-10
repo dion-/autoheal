@@ -7,6 +7,8 @@
 
 Automatically fix code based on failing tests using GPT.
 
+https://user-images.githubusercontent.com/2049913/230870896-c9c77ab5-cc7b-49ba-a6d4-546a2ba6e8e8.mp4
+
 <br/>
 
 ## How does it work?
@@ -18,6 +20,10 @@ Automatically fix code based on failing tests using GPT.
 <br/>
 
 ## How to use
+
+
+
+
 
 In your project directory, run:
 ```
