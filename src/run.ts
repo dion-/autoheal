@@ -64,7 +64,6 @@ export async function run({
   const fileScanSpinner = ora(`Scanning project files...`).start();
   const filesToFix = await scanProjectForForFilesToHeal(testRun.details, model);
 
-
   if (filesToFix.length === 0) {
     fileScanSpinner.fail(
       chalk.redBright(
@@ -105,10 +104,9 @@ export async function run({
 
   console.log(chalk.yellowBright("⇣ Running tests again..."));
 
+  numberOfRuns++;
   await run({
     model,
     testCommand,
   });
-
-  numberOfRuns++;
 }
