@@ -2,9 +2,10 @@
 import { Command } from "commander";
 import inquirer from "inquirer";
 import { run } from "./run.js";
+import { renderTitle } from "./render-title.js";
 
 const program = new Command();
-
+renderTitle();
 program
   .name('Auto Heal')
   .description("Heal your source code")

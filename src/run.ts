@@ -3,6 +3,7 @@ import ora from "ora";
 import { scanProjectForForFilesToHeal } from "./scan-project.js";
 import { healFile } from "./heal-file.js";
 import { runTests } from "./run-tests.js";
+import { renderTitle } from "./render-title.js";
 
 export async function run({
   model,
@@ -11,6 +12,7 @@ export async function run({
   model: "gpt-3.5-turbo" | "gpt-4";
   testCommand: string;
 }) {
+
   const testRunSpinner = ora(
     `Running tests...\n ${chalk.dim.italic(`$ ${testCommand}`)}`
   ).start();
