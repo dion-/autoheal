@@ -1,6 +1,6 @@
 {
   "name": "autoheal",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Self healing LLM-assisted test driven development 🐙",
   "main": "dist/index.js",
   "type": "module",
