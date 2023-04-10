@@ -6,11 +6,8 @@ import { run } from "./run.js";
 const program = new Command();
 
 program
-  .command("heal")
+  .name('Auto Heal')
   .description("Heal your source code")
-  .option("-model --m", "The model to use for healing")
-  .option("-api_key --k", "OpenAI API key")
-  .option("-test_command --t", "Command to run tests")
   .action(() => {
     const prompts = [
       {
