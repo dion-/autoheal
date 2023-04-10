@@ -4,6 +4,7 @@ import { scanProjectForForFilesToHeal } from "./scan-project.js";
 import { healFile } from "./heal-file.js";
 import { runTests } from "./run-tests.js";
 import { renderTitle } from "./render-title.js";
+import inquirer from "inquirer";
 
 let numberOfRuns = 0;
 const runLimit = 6;
@@ -62,7 +63,7 @@ export async function run({
   }
 
   const fileScanSpinner = ora(`Scanning project files...`).start();
-  const filesToFix = await scanProjectForForFilesToHeal(testRun.details, model);
+  let filesToFix = await scanProjectForForFilesToHeal(testRun.details, model);
 
   if (filesToFix.length === 0) {
     fileScanSpinner.fail(
@@ -74,11 +75,34 @@ export async function run({
   }
 
   fileScanSpinner.stopAndPersist({
-    text: `Found ${filesToFix.length} file(s) to heal \n${chalk.dim(
+    text: `Found ${filesToFix.length} possible file(s) to heal \n${chalk.dim(
       filesToFix.join("\n")
     )}\n`,
     symbol: "📂",
   });
+
+  if (filesToFix.length > 5) {
+    const fileListPrompt = inquirer.createPromptModule();
+    let selectedFiles = [];
+
+    while (selectedFiles.length === 0) {
+      const result = await fileListPrompt([
+        {
+          type: "checkbox",
+          name: "fileList",
+          message: "Select files to heal",
+          choices: filesToFix,
+          loop: false,
+        },
+      ]);
+      selectedFiles = result.fileList;
+      if(selectedFiles.length === 0) {
+        console.log(chalk.redBright.bold("Please select at least one file to heal.") + chalk.yellowBright.bold(" (Press space to select)"));
+      }
+    }
+
+    filesToFix = selectedFiles;
+  }
 
   const fileList = chalk.italic.dim(filesToFix.join(", "));
   const healingSpinner = ora({
