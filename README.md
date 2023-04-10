@@ -3,9 +3,9 @@
 </p>
 
 
-# autoheal
+# autoheal CLI
 
-CLI tool that automatically fixes code based on failing tests.
+Automatically fix code based on failing tests using GPT.
 
 <br/>
 
@@ -27,6 +27,9 @@ npx autoheal
 Uses OpenAI's GPT-3.5-turbo or GTP-4 APIs. [Requires OpenAI API key.](https://beta.openai.com/)
 
 <br/>
-## Does it work?
+
+## How well does it work?
+
+This depends on many factors, including the size and structure of your project and the quality of your tests. In general, it works best on projects will smaller files. Using GPT-4 is much more reliable than GPT-3.5-turbo, but it is also much more expensive (as of April 2023)
 
 
