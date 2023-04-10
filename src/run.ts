@@ -28,13 +28,13 @@ export async function run({
   const testRunSpinner = ora(
     `Running tests...\n ${chalk.dim.italic(`$ ${testCommand}`)}`
   ).start();
-  const testRun = await runTests(testCommand);
+  const testRun = await runTests(testCommand, model);
 
   if (testRun.passes) {
     testRunSpinner.succeed(chalk.green("Tests passed."));
 
     if (numberOfRuns > 0) {
-      console.log(chalk.green(`\n🎉  Healed after ${numberOfRuns} run(s)!`));
+      console.log(chalk.green.bold(`\n✨ Healed project after ${numberOfRuns} run(s)!`));
     } else {
       console.log(
         chalk.green("\nNo healing was necessary. Tests are already passing.")
@@ -43,9 +43,10 @@ export async function run({
 
     return;
   }
+
   testRunSpinner.fail(
-    `${chalk.yellowBright("Tests failed.")}\n${chalk.dim.italic(
-      testRun.details.slice(-300)
+    `${chalk.yellowBright("Tests failed.")}\n${chalk(
+      testRun.explanation
     )}\n`
   );
 
@@ -117,12 +118,12 @@ export async function run({
   const healthDescriptionsString = healthDescriptions
     .filter((d) => d !== undefined)
     .map(({ filePath, healDescription }) => {
-      return `\n${chalk.yellow(filePath)}\n⇢ ${chalk.italic(healDescription)}`;
+      return `${chalk.yellow(filePath)}\n⇢ ${chalk.italic(healDescription)}\n`;
     })
-    .join("\n");
+    .join("");
 
   healingSpinner.stopAndPersist({
-    text: `Healed ${filesToFix.length} file(s) \n${healthDescriptionsString}`,
+    text: `Healed ${filesToFix.length} file(s): \n${healthDescriptionsString}`,
     symbol: "✨",
   });
 
