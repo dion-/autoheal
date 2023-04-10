@@ -1,4 +1,5 @@
 import { execa } from "execa";
+import { summariseTestDetails } from "./summarise-test-results.js";
 
 export async function runTests(testCommand: string) {
   try {
@@ -9,11 +10,11 @@ export async function runTests(testCommand: string) {
       details: "",
     };
   } catch (e: any) {
-    const details = e.stderr || e.stdout ;
-
+    const details = e.stderr || e.stdout;
+  
     return {
       passes: false,
-      details,
+      details: summariseTestDetails(details),
     };
   }
 }
