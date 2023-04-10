@@ -38,6 +38,7 @@ Uses OpenAI's GPT-3.5-turbo or GTP-4 APIs. [Requires OpenAI API key.](https://be
 This depends on many factors, including the size and structure of your project and the quality of your tests. In general, it works best on projects will smaller files. Using GPT-4 is much more reliable than GPT-3.5-turbo, but it is also much more expensive (as of April 2023)
 
 <br/>
+
 ## Test Driven Development + AI workflow
 
 GPT4 is very capable at writing code, however it can be challenging describing the specifics of the software you want to develop to GPT4 as well as verify the software behaves as you intend. Automated tests can serve as a way to precisely describe the specificiations of software and to verify its functionality. TDD can be used to more precisely steer the GPT's development power.
