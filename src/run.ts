@@ -5,6 +5,9 @@ import { healFile } from "./heal-file.js";
 import { runTests } from "./run-tests.js";
 import { renderTitle } from "./render-title.js";
 
+let numberOfRuns = 0;
+const runLimit = 6;
+
 export async function run({
   model,
   testCommand,
@@ -12,6 +15,14 @@ export async function run({
   model: "gpt-3.5-turbo" | "gpt-4";
   testCommand: string;
 }) {
+  if (numberOfRuns > runLimit) {
+    console.log(
+      chalk.redBright(
+        `⚠️  I've tried to heal your project ${numberOfRuns} times, but I'm still not able to get the tests to pass.`
+      )
+    );
+    return;
+  }
 
   const testRunSpinner = ora(
     `Running tests...\n ${chalk.dim.italic(`$ ${testCommand}`)}`
@@ -20,6 +31,15 @@ export async function run({
 
   if (testRun.passes) {
     testRunSpinner.succeed(chalk.green("Tests passed."));
+
+    if (numberOfRuns > 0) {
+      console.log(chalk.green(`\n🎉  Healed after ${numberOfRuns} run(s)!`));
+    } else {
+      console.log(
+        chalk.green("\nNo healing was necessary. Tests are already passing.")
+      );
+    }
+
     return;
   }
   testRunSpinner.fail(
@@ -33,7 +53,7 @@ export async function run({
       chalk.yellowBright(
         "⚠️  I wasn't able to see the results of the failing test run when running "
       ) +
-        chalk.italic.dim('$ ' + testCommand) +
+        chalk.italic.dim("$ " + testCommand) +
         chalk.yellowBright(
           "\nPlease make sure that the test command is correct and that the test results are printed to the console."
         )
@@ -43,6 +63,17 @@ export async function run({
 
   const fileScanSpinner = ora(`Scanning project files...`).start();
   const filesToFix = await scanProjectForForFilesToHeal(testRun.details, model);
+
+
+  if (filesToFix.length === 0) {
+    fileScanSpinner.fail(
+      chalk.redBright(
+        "I wasn't able to find any files that I could heal. Please make sure that the test command is correct and that the test results are printed to the console."
+      )
+    );
+    return;
+  }
+
   fileScanSpinner.stopAndPersist({
     text: `Found ${filesToFix.length} file(s) to heal \n${chalk.dim(
       filesToFix.join("\n")
@@ -78,4 +109,6 @@ export async function run({
     model,
     testCommand,
   });
+
+  numberOfRuns++;
 }
