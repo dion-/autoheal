@@ -81,7 +81,7 @@ export async function run({
     symbol: "📂",
   });
 
-  if (filesToFix.length > 5) {
+  if (filesToFix.length > 3) {
     const fileListPrompt = inquirer.createPromptModule();
     let selectedFiles = [];
 
@@ -90,7 +90,7 @@ export async function run({
         {
           type: "checkbox",
           name: "fileList",
-          message: "Select files to heal",
+          message: "Select at least one file to heal",
           choices: filesToFix,
           loop: false,
         },
