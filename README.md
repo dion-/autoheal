@@ -37,7 +37,7 @@ Uses OpenAI's GPT-3.5-turbo or GTP-4 APIs. [Requires OpenAI API key.](https://be
 
 ## How well does it work?
 
-This depends on many factors, including the size and structure of your project and the quality of your tests. In general, it works best on projects will smaller files which avoid GPT's limited context size. Using GPT-4 is much more reliable than GPT-3.5-turbo.
+This depends on many factors, including the size, structure and complexity of your project and the quality of your tests. In general, it works best on projects will smaller files which avoid GPT's limited context size. Using GPT-4 is much more reliable than GPT-3.5-turbo.
 
 
 
