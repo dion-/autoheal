@@ -2,12 +2,11 @@
   <img src="https://raw.githubusercontent.com/dion-/autoheal/6aa72b7e5c1f7a72d93a16aed8e8c08265d10dfa/autoheal.png" width="130" alt="Autoheal Logo" />
 </p>
 
-
 # autoheal CLI
 
 Automatically fix code based on failing tests using GPT.
 
-https://user-images.githubusercontent.com/2049913/230870896-c9c77ab5-cc7b-49ba-a6d4-546a2ba6e8e8.mp4
+https://user-images.githubusercontent.com/2049913/230871441-c159432b-1984-499c-978a-fa7f66efb91a.mp4
 
 <br/>
 
