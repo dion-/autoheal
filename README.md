@@ -4,7 +4,7 @@
 
 # autoheal CLI
 
-Automatically fix code based on failing tests using GPT.
+Auto GPT Agent which automatically fixes code based on failing tests.
 
 https://user-images.githubusercontent.com/2049913/230871441-c159432b-1984-499c-978a-fa7f66efb91a.mp4
 
@@ -37,11 +37,11 @@ Uses OpenAI's GPT-3.5-turbo or GTP-4 APIs. [Requires OpenAI API key.](https://be
 
 This depends on many factors, including the size and structure of your project and the quality of your tests. In general, it works best on projects will smaller files. Using GPT-4 is much more reliable than GPT-3.5-turbo, but it is also much more expensive (as of April 2023)
 
-
+<br/>
 ## Test Driven Development + AI workflow
 
 GPT4 is very capable at writing code, however it can be challenging describing the specifics of the software you want to develop to GPT4 as well as verify the software behaves as you intend. Automated tests can serve as a way to precisely describe the specificiations of software and to verify its functionality. TDD can be used to more precisely steer the GPT's development power.
-
+<br/>
 ![TDD](https://user-images.githubusercontent.com/2049913/230879688-219a8328-bad5-46c2-995d-035421cee981.png)
 
 
