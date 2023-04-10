@@ -12,7 +12,7 @@
     "postinstall": "tsc"
   },
   "bin": {
-    "shoggoth-tdd": "./dist/index.js"
+    "autoheal": "./dist/index.js"
   },
   "keywords": [
     "TTD",
