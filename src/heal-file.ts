@@ -1,37 +1,46 @@
-import { readFile } from "fs/promises";
-import { prompt } from "./prompt.js";
 import chalk from "chalk";
+import { prompt } from "./prompt.js";
 import { readFileSync, writeFileSync } from "fs";
-import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
-import ora from "ora";
+import { ChatCompletionRequestMessage } from "openai";
 
-export async function healFile(filePath: string, testDetails: string) {
+export async function healFile(filePath: string, testDetails: string, model: 'gpt-3.5-turbo' | 'gpt-4') {
   const fileContent = readFileSync(filePath, { encoding: "utf-8" });
 
-  const rawFile = await prompt([
-    ...promptMessages,
-    {
-      role: "user",
-      content: `Test results:\n\`\`\`\n${testDetails}\n\`\`\`\n\nFile contents:\n\`\`\`\n${fileContent}\n\`\`\`\n`,
-    },
-  ]);
+  try {
+    const rawFile = await prompt([
+      ...promptMessages,
+      {
+        role: "user",
+        content: `Test results:\n\`\`\`\n${testDetails}\n\`\`\`\n\nFile ${filePath}\n\`\`\`\n${fileContent}\n\`\`\`\n`,
+      },
+    ], model);
 
-  if (!rawFile) {
+    if (!rawFile) {
+      return {
+        filePath,
+        healDescription: "Unable to heal file",
+      };
+    }
+
+    const [healDescription, newFileRaw] = rawFile.split("```");
+    const newFile = newFileRaw.replace("\n", ""); // Replace first newline
+
+    if (newFile) {
+      writeFileSync(filePath, newFile || "");
+    }
+
+    return {
+      filePath,
+      healDescription,
+    };
+  } catch (e: any) {
+    console.log(chalk.red(e.message));
+
     return {
       filePath,
       healDescription: "Unable to heal file",
     };
   }
-
-  const [healDescription, newFile] = rawFile.split("```");
-
-  // Write file
-  writeFileSync(filePath, newFile || "");
-
-  return {
-    filePath,
-    healDescription,
-  };
 }
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -45,8 +54,10 @@ const promptMessages: ChatCompletionRequestMessage[] = [
   {
     role: "user",
     content:
-      "I will give you the results of a unit test run and the suspected file" +
-      " that is causing the failed test. You will only reply with a very brief" +
+      "I will give you the results of a unit test run and a suspected file" +
+      " that may be contributing to the failed test. The file may only be contributing" +
+      " to some or none of the failing tests which you will take into account when fixing the file. " +
+      "You will only reply with a very brief" +
       " description of the possible issue (in past tense) and the content of the fixed file between the triple backticks.",
   },
   {
@@ -92,7 +103,7 @@ error: expect(received).toStrictEqual(expected)
 Ran 1 tests across 1 files [24.00ms]
 \`\`\`
 
-File contents:
+File: ./src/Order.ts
 \`\`\`
 export class Customer {}
 

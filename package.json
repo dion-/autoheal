@@ -1,5 +1,5 @@
 {
-  "name": "shoggoth-tdd",
+  "name": "autoheal",
   "version": "0.0.1",
   "description": "Self healing LLM-assisted test driven development 🐙",
   "main": "dist/index.js",
