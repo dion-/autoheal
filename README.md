@@ -5,12 +5,14 @@
 
 # autoheal CLI
 
-Automatically fix code based on failing tests using GPT.
+Auto GPT4 Agent with automatically fixes code based on failing tests.
 
 <br/>
 
 ## How does it work?
-<br>
+
+Tests can be a reliable description of the expected behavior of a program. When structured well, failing test results can be analysed by GPT-4 to determine possible fixes to the code. GPT4 can then automatically implement fixes and verify they work by running the tests again.
+
 <img src="https://raw.githubusercontent.com/dion-/autoheal/857b58e669e6d54ca6141cbf2cae56936d2d9dae/autoheal-diagram.png" alt="Autoheal Logo" />
 
 
@@ -30,6 +32,7 @@ Uses OpenAI's GPT-3.5-turbo or GTP-4 APIs. [Requires OpenAI API key.](https://be
 
 ## How well does it work?
 
-This depends on many factors, including the size and structure of your project and the quality of your tests. In general, it works best on projects will smaller files. Using GPT-4 is much more reliable than GPT-3.5-turbo, but it is also much more expensive (as of April 2023)
+This depends on many factors, including the size and structure of your project and the quality of your tests. In general, it works best on projects will smaller files which avoid GPT's limited context size. Using GPT-4 is much more reliable than GPT-3.5-turbo.
+
 
 
