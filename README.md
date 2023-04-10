@@ -11,6 +11,9 @@ https://user-images.githubusercontent.com/2049913/230871441-c159432b-1984-499c-9
 <br/>
 
 ## How does it work?
+
+Tests can be a reliable description of the expected behavior of a program. When structured well, failing test results can be analysed by GPT-4 to determine possible fixes to the code. GPT4 can then automatically implement fixes and verify they work by running the tests again.
+
 <br>
 <img src="https://raw.githubusercontent.com/dion-/autoheal/857b58e669e6d54ca6141cbf2cae56936d2d9dae/autoheal-diagram.png" alt="Autoheal Logo" />
 
@@ -19,9 +22,6 @@ https://user-images.githubusercontent.com/2049913/230871441-c159432b-1984-499c-9
 <br/>
 
 ## How to use
-
-
-
 
 
 In your project directory, run:
@@ -42,7 +42,9 @@ This depends on many factors, including the size and structure of your project a
 ## Test Driven Development + AI workflow
 
 GPT4 is very capable at writing code, however it can be challenging describing the specifics of the software you want to develop to GPT4 as well as verify the software behaves as you intend. Automated tests can serve as a way to precisely describe the specificiations of software and to verify its functionality. TDD can be used to more precisely steer the GPT's development power.
+
 <br/>
+
 ![TDD](https://user-images.githubusercontent.com/2049913/230879688-219a8328-bad5-46c2-995d-035421cee981.png)
 
 
