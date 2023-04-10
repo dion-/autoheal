@@ -2,10 +2,11 @@
   <img src="https://raw.githubusercontent.com/dion-/autoheal/6aa72b7e5c1f7a72d93a16aed8e8c08265d10dfa/autoheal.png" width="130" alt="Autoheal Logo" />
 </p>
 
-
 # autoheal CLI
 
 Auto GPT4 Agent with automatically fixes code based on failing tests.
+
+https://user-images.githubusercontent.com/2049913/230871441-c159432b-1984-499c-978a-fa7f66efb91a.mp4
 
 <br/>
 
@@ -20,6 +21,10 @@ Tests can be a reliable description of the expected behavior of a program. When 
 <br/>
 
 ## How to use
+
+
+
+
 
 In your project directory, run:
 ```
