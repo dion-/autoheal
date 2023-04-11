@@ -11,6 +11,7 @@ import _ from "lodash";
  */
 export async function scanProjectForForFilesToHeal(
   testDetails: string,
+  hint: string,
   model: "gpt-3.5-turbo" | "gpt-4"
 ) {
   const findFilesToFix = await execa("find", [
@@ -27,12 +28,32 @@ export async function scanProjectForForFilesToHeal(
     .filter((f) => f.indexOf("test") === -1)
     .filter((f) => f.indexOf("spec") === -1)
     .filter((f) => f.indexOf("dist") === -1);
+
+  // Have GPT guess the problematic files based on the test results alone
+  const guessedFileNames = await guessFilesBasedOnTestResults(
+    testDetails,
+    hint,
+    model
+  );
+  const guessedFiles = possibleFilesToFix.filter((filePath) => {
+    const fileName = filePath.split("/").pop();
+
+    return (
+      fileName && guessedFileNames && guessedFileNames.indexOf(fileName) !== -1
+    );
+  });
+
+  if (guessedFiles.length > 0) {
+    return guessedFiles;
+  }
+
+  // Ok, GPT didn't guess any files, so we'll have to ask it to analyse the list of files
   const chunkSize = model === "gpt-3.5-turbo" ? 30 : 80; // Try to avoid token limit
   const fileChunks = _.chunk(possibleFilesToFix, chunkSize);
 
   const responses = await Promise.all(
     fileChunks.map((fileChunk) =>
-      analyseFileListChunk(testDetails, fileChunk, model)
+      analyseFileListChunk(testDetails, hint, fileChunk, model)
     )
   );
 
@@ -44,17 +65,47 @@ export async function scanProjectForForFilesToHeal(
   });
 }
 
-async function analyseFileListChunk(
+async function guessFilesBasedOnTestResults(
   testDetails: string,
-  possibleFilesToFix: string[],
+  hint: string,
   model: "gpt-3.5-turbo" | "gpt-4"
 ) {
-  return await prompt(
+  const response = await prompt(
     [
       {
         role: "system",
         content:
-          "You are simple program that looks at the test results and return the files to fix in a comma separated list. You respond briefly. ",
+          "You are an expert programming assistant helping to debug failing tests. ",
+      },
+      {
+        role: "user",
+        content:
+          `${
+            hint ? `${hint}\n\n` : ""
+          } Given the following test results. Guess possible files names in the project that may be causing the issue, do not include test files eg., "utility.test.js"` +
+          ` \nList of possible files:\n` +
+          "Test run results:\n```" +
+          testDetails +
+          "\n```\n",
+      },
+    ],
+    model
+  );
+
+  return response;
+}
+
+async function analyseFileListChunk(
+  testDetails: string,
+  hint: string,
+  possibleFilesToFix: string[],
+  model: "gpt-3.5-turbo" | "gpt-4"
+) {
+  const response = await prompt(
+    [
+      {
+        role: "system",
+        content: "You are an expert programming assistant. ",
       },
       {
         role: "user",
@@ -62,8 +113,7 @@ async function analyseFileListChunk(
           "You will be given results of a test run and a list of files," +
           " and reply with up to 4 files that have a high degree of probablity to be causing " +
           " the test failures." +
-          " You will only return files that have a high probability of being problematic. " +
-          "The list of possible files does not contain any files to fix in many cases, reply with an empty list in these occasions.",
+          " You will only return files that have a high probability of being problematic. ",
       },
       {
         role: "assistant",
@@ -73,7 +123,11 @@ async function analyseFileListChunk(
       {
         role: "user",
         content:
-          "Respond very briefly with the list of of files.\nList of possible files:\n" +
+          `${
+            hint ? `${hint}\n\n` : ""
+          }Respond very briefly with the list of of files that may causing the test fails. Only give me the files that are very likely to be causing a failure.` +
+          `It is very possible this list of files may contain no files to fix, reply with an empty list in if this looks to be the case.` +
+          ` \nList of possible files:\n` +
           possibleFilesToFix.map((f) => "" + f).join(", ") +
           "Test run results:\n```" +
           testDetails +
@@ -82,4 +136,5 @@ async function analyseFileListChunk(
     ],
     model
   );
+  return response;
 }
