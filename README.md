@@ -37,27 +37,27 @@ You can press _[Enter]_ during the run to pause the process and provide a hint b
 
 ## How well does it work?
 
-This depends on many factors:
+This project is still very experimental and may not always produce good results, so run with caution. The following factors can influence the effectiveness of autoheal:
 
-### **Nature of the bug or feature**
+### _Nature of the bug or feature_
 
 Simplier bugs or features that can be resolved in changes to single files will have most success.
 
-### **Quality of the tests and test failure output**
+### _Quality of the tests and test failure output_
 
 Test failures that provide enough information (diffs, stack traces etc.) to determine possible paths to fix will have best results. Running tests in a mode that only outputs failing tests will improve results.
 
-### **Structure and size of the project**
+### _Structure and size of the project_
 
 Projects with smaller and well-named files have better results. Autoheal's strategy is limited by openAI's token limit, so infers details by file names.
 
-### **Hints provided**
+### _Hints provided_
 
 You can provide a freeform hint to autoheal to provide more specific details (e.g., specific files, or possible ways to fix the bug). This can be useful when the test failure output is not enough to determine a fix.
 
-### **Model used**
+### _Model used_
 
-Using GPT-4 is much more reliable than GPT-3.5-turbo. I do not have access, but suspect OpenAI's 32k token model will enable greater effectiveness.
+Using GPT-4 is much more reliable than GPT-3.5-turbo because it's generally produces better results and has a larger token limit. I do not have access, but suspect OpenAI's 32k token model will enable greater effectiveness.
 
 <br/>
 
