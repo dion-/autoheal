@@ -3,9 +3,31 @@ import ora from "ora";
 import { scanProjectForForFilesToHeal } from "./scan-project.js";
 import { healFile } from "./heal-file.js";
 import { runTests } from "./run-tests.js";
-import { renderTitle } from "./render-title.js";
 import inquirer from "inquirer";
+import * as readline from "readline";
 
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+function listenForEnterPressToPauseForHint() {
+  rl.on("line", (input: string) => {
+    if (canPauseForHint && !pauseForHintInput && input === "") {
+      if (hint) {
+        console.log(chalk.bold.dim("\n✦ (will pause to update hint) ✦\n\n"));
+      } else {
+        console.log(chalk.bold.dim("\n✦ (will pause to add hint) ✦\n\n"));
+      }
+
+      pauseForHintInput = true;
+    }
+  });
+}
+
+let canPauseForHint = true;
+let pauseForHintInput = false;
+let hint = ""; // user provided hint to provide additional guidance
 let numberOfRuns = 0;
 const runLimit = 6;
 
@@ -25,6 +47,8 @@ export async function run({
     return;
   }
 
+  listenForEnterPressToPauseForHint();
+
   const testRunSpinner = ora(
     `Running tests...\n ${chalk.dim.italic(`$ ${testCommand}`)}`
   ).start();
@@ -34,7 +58,9 @@ export async function run({
     testRunSpinner.succeed(chalk.green("Tests passed."));
 
     if (numberOfRuns > 0) {
-      console.log(chalk.green.bold(`\n✨ Healed project after ${numberOfRuns} run(s)!`));
+      console.log(
+        chalk.green.bold(`\n✨ Healed project after ${numberOfRuns} run(s)!`)
+      );
     } else {
       console.log(
         chalk.green("\nNo healing was necessary. Tests are already passing.")
@@ -45,9 +71,9 @@ export async function run({
   }
 
   testRunSpinner.fail(
-    `${chalk.yellowBright("Tests failed.")}\n${chalk(
-      testRun.explanation
-    )}\n`
+    `${chalk.yellowBright("Tests failed.")}\n\n${chalk.bold(
+      "✨ Analysis of failures"
+    )}\n${chalk(testRun.explanation)}\n`
   );
 
   if (!testRun.details) {
@@ -63,8 +89,14 @@ export async function run({
     return;
   }
 
+  await pauseForHintInputIfNecessary();
+
   const fileScanSpinner = ora(`Scanning project files...`).start();
-  let filesToFix = await scanProjectForForFilesToHeal(testRun.details, model);
+  let filesToFix = await scanProjectForForFilesToHeal(
+    testRun.details,
+    hint,
+    model
+  );
 
   if (filesToFix.length === 0) {
     fileScanSpinner.fail(
@@ -83,6 +115,7 @@ export async function run({
   });
 
   if (filesToFix.length > 3) {
+    canPauseForHint = false;
     const fileListPrompt = inquirer.createPromptModule();
     let selectedFiles = [];
 
@@ -97,13 +130,18 @@ export async function run({
         },
       ]);
       selectedFiles = result.fileList;
-      if(selectedFiles.length === 0) {
-        console.log(chalk.redBright.bold("Please select at least one file to heal.") + chalk.yellowBright.bold(" (Press space to select)"));
+      if (selectedFiles.length === 0) {
+        console.log(
+          chalk.redBright.bold("Please select at least one file to heal.") +
+            chalk.yellowBright.bold(" (Press space to select)")
+        );
       }
     }
-
+    canPauseForHint = true;
     filesToFix = selectedFiles;
   }
+
+  await pauseForHintInputIfNecessary();
 
   const fileList = chalk.italic.dim(filesToFix.join(", "));
   const healingSpinner = ora({
@@ -112,13 +150,15 @@ export async function run({
   }).start();
 
   const healingPromises = filesToFix.map(async (file) => {
-    return healFile(file, testRun.details, model);
+    return healFile(file, testRun.details, hint, model);
   });
   const healthDescriptions = await Promise.all(healingPromises);
   const healthDescriptionsString = healthDescriptions
     .filter((d) => d !== undefined)
     .map(({ filePath, healDescription }) => {
-      return `${chalk.yellow(filePath)}\n⇢ ${chalk.italic(healDescription)}\n`;
+      return `${chalk.bold.yellow(filePath)}\n⇢ ${chalk.italic(
+        healDescription
+      )}\n`;
     })
     .join("");
 
@@ -135,3 +175,25 @@ export async function run({
     testCommand,
   });
 }
+
+const pauseForHintInputIfNecessary = async () => {
+  if (pauseForHintInput) {
+    const hintPrompt = inquirer.createPromptModule();
+    console.log(
+      chalk.yellowBright.bold("⇣ Add a hint to help guide healing process.") +
+        "\n" +
+        chalk.italic.dim(
+          "e.g., suggest a file to heal, a specific function to investigate or more details about the issue or goal"
+        )
+    );
+    const result = await hintPrompt([
+      {
+        type: "input",
+        name: "hint",
+        message: "Enter hint:",
+      },
+    ]);
+    hint = result.hint;
+    pauseForHintInput = false;
+  }
+};

@@ -3,17 +3,27 @@ import { prompt } from "./prompt.js";
 import { readFileSync, writeFileSync } from "fs";
 import { ChatCompletionRequestMessage } from "openai";
 
-export async function healFile(filePath: string, testDetails: string, model: 'gpt-3.5-turbo' | 'gpt-4') {
+export async function healFile(
+  filePath: string,
+  testDetails: string,
+  hint: string,
+  model: "gpt-3.5-turbo" | "gpt-4"
+) {
   const fileContent = readFileSync(filePath, { encoding: "utf-8" });
 
   try {
-    const rawFile = await prompt([
-      ...promptMessages,
-      {
-        role: "user",
-        content: `Test results:\n\`\`\`\n${testDetails}\n\`\`\`\n\nFile ${filePath}\n\`\`\`\n${fileContent}\n\`\`\`\n`,
-      },
-    ], model);
+    const rawFile = await prompt(
+      [
+        ...promptMessages,
+        {
+          role: "user",
+          content: `${
+            hint ? `${hint}\n\n` : ""
+          }Test results:\n\`\`\`\n${testDetails}\n\`\`\`\n\nFile ${filePath}\n\`\`\`\n${fileContent}\n\`\`\`\n`,
+        },
+      ],
+      model
+    );
 
     if (!rawFile) {
       return {
