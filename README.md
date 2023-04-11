@@ -17,25 +17,47 @@ Tests can be a reliable description of the expected behavior of a program. When 
 <br>
 <img src="https://raw.githubusercontent.com/dion-/autoheal/857b58e669e6d54ca6141cbf2cae56936d2d9dae/autoheal-diagram.png" alt="Autoheal Logo" />
 
-
-
 <br/>
 
 ## How to use
 
-
 In your project directory, run:
+
 ```
 npx autoheal
 ```
 
 Uses OpenAI's GPT-3.5-turbo or GTP-4 APIs. [Requires OpenAI API key.](https://beta.openai.com/)
 
+You can press _[Enter]_ during the run to pause the process and provide a hint better guide autoheal.
+
+⚠️ **AUTOHEAL WILL MODIFY FILES IN YOUR PROJECT – BE COMMIT ANY UNSAVED CHANGES BEFORE RUNNING**
+
 <br/>
 
 ## How well does it work?
 
-This depends on many factors, including the size and structure of your project and the quality of your tests. In general, it works best on projects with smaller files because of GPT's limited token size. Using GPT-4 is much more reliable than GPT-3.5-turbo. I do not have access, but suspect OpenAI's 32k token model will enable greater effectiveness. 
+This depends on many factors:
+
+### **Nature of the bug or feature**
+
+Simplier bugs or features that can be resolved in changes to single files will have most success.
+
+### **Quality of the tests and test failure output**
+
+Test failures that provide enough information (diffs, stack traces etc.) to determine possible paths to fix will have best results. Running tests in a mode that only outputs failing tests will improve results.
+
+### **Structure and size of the project**
+
+Projects with smaller and well-named files have better results. Autoheal's strategy is limited by openAI's token limit, so infers details by file names.
+
+### **Hints provided**
+
+You can provide a freeform hint to autoheal to provide more specific details (e.g., specific files, or possible ways to fix the bug). This can be useful when the test failure output is not enough to determine a fix.
+
+### **Model used**
+
+Using GPT-4 is much more reliable than GPT-3.5-turbo. I do not have access, but suspect OpenAI's 32k token model will enable greater effectiveness.
 
 <br/>
 
@@ -46,5 +68,3 @@ GPT-4 is very capable at writing code, however it can be challenging describing 
 <br/>
 
 ![TDD](https://user-images.githubusercontent.com/2049913/230879688-219a8328-bad5-46c2-995d-035421cee981.png)
-
-
