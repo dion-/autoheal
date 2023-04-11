@@ -41,7 +41,7 @@ This depends on many factors, including the size and structure of your project a
 
 ## Test Driven Development + AI workflow
 
-GPT-4 is very capable at writing code, however it can be challenging describing the specifics of the software you want to develop to GPT-4 as well as verify the software behaves as you intend. Automated tests can serve as a way to precisely describe the specificiations of software and to verify its functionality. TDD can be used to more precisely steer the GPT-4's development power.
+GPT-4 is very capable at writing code, however it can be challenging describing the specifics of the software you want to develop to GPT-4 as well as verify the software behaves as you intend. Automated tests can serve as a way to precisely describe the specificiations of software and to verify its functionality. TDD can be used to more precisely steer GPT-4's development power.
 
 <br/>
 

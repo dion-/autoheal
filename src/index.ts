@@ -51,7 +51,6 @@ program
     inquirer.prompt(prompts).then(async (answers) => {
       if(answers.apiKey) {
         process.env.OPENAI_API_KEY = answers.apiKey;
-        console.log('SETT');
       }
       run(answers);
     });
