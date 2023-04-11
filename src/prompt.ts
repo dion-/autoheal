@@ -9,7 +9,7 @@ export async function prompt(messages: ChatCompletionRequestMessage[], model: 'g
   try {
     const searchTermsResponse = await openai.createChatCompletion({
       model,
-      temperature: 0.3,
+      temperature: 0.9,
       messages,
     });
     return searchTermsResponse.data.choices[0]?.message?.content;
