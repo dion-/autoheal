@@ -31,7 +31,7 @@ Uses OpenAI's GPT-3.5-turbo or GTP-4 APIs. [Requires OpenAI API key.](https://be
 
 You can press _[Enter]_ during the run to pause the process and provide a hint better guide autoheal.
 
-⚠️ **AUTOHEAL WILL MODIFY FILES IN YOUR PROJECT – BE COMMIT ANY UNSAVED CHANGES BEFORE RUNNING**
+⚠️ **AUTOHEAL WILL MODIFY FILES IN YOUR PROJECT – BE SURE TO COMMIT ANY UNSAVED CHANGES BEFORE RUNNING**
 
 <br/>
 
@@ -45,7 +45,7 @@ Simplier bugs or features that can be resolved in changes to single files will h
 
 ### _Quality of the tests and test failure output_
 
-Test failures that provide enough information (diffs, stack traces etc.) to determine possible paths to fix will have best results. Running tests in a mode that only outputs failing tests will improve results.
+Test failures that provide enough information (diffs, stack traces etc.) to determine possible paths to fix will have best results. Running tests in a mode that only output failing tests may improve results.
 
 ### _Structure and size of the project_
 
@@ -57,13 +57,13 @@ You can provide a freeform hint to autoheal to provide more specific details (e.
 
 ### _Model used_
 
-Using GPT-4 is much more reliable than GPT-3.5-turbo because it's generally produces better results and has a larger token limit. I do not have access, but suspect OpenAI's 32k token model will enable greater effectiveness.
+Using GPT-4 is much more reliable than GPT-3.5-turbo because it generally produces better results and has a larger token limit. I do not have access, but suspect OpenAI's 32k token model will enable much more effective strategies in the near future.
 
 <br/>
 
 ## Test Driven Development + AI workflow
 
-GPT-4 is very capable at writing code, however it can be challenging describing the specifics of the software you want to develop to GPT-4 as well as verify the software behaves as you intend. Automated tests can serve as a way to precisely describe the specificiations of software and to verify its functionality. TDD can be used to more precisely steer GPT-4's development power.
+GPT-4 is very capable at writing code, however it can be challenging describing the specifics of the software you want to develop to GPT-4 as well as verify the software behaves in the intended way without subtle bugs. Automated tests can serve as a way to precisely describe the specifications of software and to automatically verify intended functionality. TDD can be used to more precisely steer GPT-4's development power.
 
 <br/>
 
