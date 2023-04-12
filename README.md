@@ -6,7 +6,7 @@
 
 Auto GPT Agent which automatically fixes code based on failing tests.
 
-https://user-images.githubusercontent.com/2049913/230871441-c159432b-1984-499c-978a-fa7f66efb91a.mp4
+<img src="https://github.com/dion-/autoheal/raw/bea893bc0248d2bf5c81e14cb7bd5092cd638f01/demo.gif"  alt="Autoheal Logo" />
 
 <br/>
 
