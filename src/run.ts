@@ -5,6 +5,7 @@ import { healFile } from "./heal-file.js";
 import { runTests } from "./run-tests.js";
 import inquirer from "inquirer";
 import * as readline from "readline";
+import { explainTestResults } from "./explain-test-results.js";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -71,10 +72,18 @@ export async function run({
   }
 
   testRunSpinner.fail(
-    `${chalk.yellowBright("Tests failed.")}\n\n${chalk.bold(
-      "✨ Analysis of failures"
-    )}\n${chalk(testRun.explanation)}\n`
+    `${chalk.yellowBright("Tests failed.")} \n${chalk.dim.italic(
+      `$ ${testCommand}`
+    )}`
   );
+
+  const analysisSpinner = ora(`Analysing failures...`).start();
+  const explanation = await explainTestResults(testRun.rawDetails, model);
+
+  analysisSpinner.stopAndPersist({
+    symbol: "✨",
+    text: `${chalk.bold("Analysis of failures")}\n${chalk(explanation)}\n`,
+  });
 
   if (!testRun.details) {
     console.log(
