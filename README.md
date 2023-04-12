@@ -33,8 +33,8 @@ You can press _[Enter]_ during the run to pause the process and provide a hint b
 
 #### ⚠️ **CAUTION**
 
-autoheal will modify files in your project – be sure to commit any unsaved changes before running<br>
-autoheal will run tests with file modifications made by GPT – it may not be wise to run if your test suite has potentially destructive side effects (e.g. modifying a database or connected to remote services)
+**autoheal will modify files in your project** <br> Be sure to commit any unsaved changes before running<br>
+**autoheal will run tests with file modifications made by GPT**<br>It may not be wise to run if your test suite has potentially destructive side effects (e.g. modifying a database or connected to remote services)
 
 <br/>
 
