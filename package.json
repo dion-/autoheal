@@ -14,12 +14,14 @@
     "autoheal": "./dist/index.js"
   },
   "keywords": [
-    "TTD",
+    "TTD-GPT",
+    "GPT-TTD",
+    "OpenAI",
     "GPT3",
     "GPT4",
     "GPT4",
-    "Test",
-    "automation"
+    "AutoGPT",
+    "Agent"
   ],
   "author": "Dion Yiw",
   "license": "ISC",
