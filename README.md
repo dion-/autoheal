@@ -31,7 +31,10 @@ Uses OpenAI's GPT-3.5-turbo or GTP-4 APIs. [Requires OpenAI API key.](https://be
 
 You can press _[Enter]_ during the run to pause the process and provide a hint better guide autoheal.
 
-⚠️ **AUTOHEAL WILL MODIFY FILES IN YOUR PROJECT – BE SURE TO COMMIT ANY UNSAVED CHANGES BEFORE RUNNING**
+#### ⚠️ **CAUTION**
+
+autoheal will modify files in your project – be sure to commit any unsaved changes before running<br>
+autoheal will run tests with file modifications made by GPT – it may not be wise to run if your test suite has potentially destructive side effects (e.g. modifying a database or connected to remote services)
 
 <br/>
 
