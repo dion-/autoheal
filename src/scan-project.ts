@@ -14,16 +14,29 @@ export async function scanProjectForForFilesToHeal(
   hint: string,
   model: "gpt-3.5-turbo" | "gpt-4"
 ) {
+  const fileExtentions = [
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "php",
+    "py",
+    "rb",
+    "go",
+    "java",
+    "c",
+    "cpp",
+  ];
   const findFilesToFix = await execa("find", [
     ".",
     "-name",
     "*.ts",
-    "-o",
-    "-name",
-    "*.js",
+    ...fileExtentions.map((ext) => ["-o", "-name", `*.${ext}`]).flat(),
   ]);
   const possibleFilesToFix = findFilesToFix.stdout
     .split("\n")
+    .filter((f) => f)
+    .filter((f) => f.indexOf(".git") === -1)
     .filter((f) => f.indexOf("node_modules") === -1)
     .filter((f) => f.indexOf("test") === -1)
     .filter((f) => f.indexOf("spec") === -1)
