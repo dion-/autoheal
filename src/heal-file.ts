@@ -66,7 +66,7 @@ const promptMessages: ChatCompletionRequestMessage[] = [
     content:
       "I will give you the results of a unit test run and a suspected file" +
       " that may be contributing to the failed test. The file may only be contributing" +
-      " to some or none of the failing tests which you will take into account when fixing the file. " +
+      " to some or none of the failing tests which you will take into account when fixing the file. Add a comment explaining each change in the fixed file prefixed with [autoheal]" +
       "You will only reply with a very brief" +
       " description of the possible issue (in past tense) and the content of the fixed file between the triple backticks.",
   },
@@ -216,6 +216,7 @@ export class Order {
     this.lineItems = lineItems;
   }
 
+  /* [autoheal] Fixed \`Order.addLineItem\` implementation */
   addLineItem(lineItem: LineItem) {
     this.lineItems.push(lineItem);
   }
