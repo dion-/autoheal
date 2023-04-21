@@ -123,7 +123,7 @@ export async function run({
     symbol: "📂",
   });
 
-  if (filesToFix.length > 3) {
+  if (filesToFix.length > 1) {
     canPauseForHint = false;
     const fileListPrompt = inquirer.createPromptModule();
     let selectedFiles = [];
@@ -159,7 +159,8 @@ export async function run({
   }).start();
 
   const healingPromises = filesToFix.map(async (file) => {
-    return healFile(file, testRun.details, hint, model);
+    const otherFiles = filesToFix.filter((f) => f !== file);
+    return healFile(file, otherFiles, testRun.details, hint, model);
   });
   const healthDescriptions = await Promise.all(healingPromises);
   const healthDescriptionsString = healthDescriptions

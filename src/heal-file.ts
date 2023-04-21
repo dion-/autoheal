@@ -5,6 +5,7 @@ import { ChatCompletionRequestMessage } from "openai";
 
 export async function healFile(
   filePath: string,
+  otherFiles: string[],
   testDetails: string,
   hint: string,
   model: "gpt-3.5-turbo" | "gpt-4"
@@ -17,15 +18,23 @@ export async function healFile(
         ...promptMessages,
         {
           role: "user",
-          content: `${
-            hint ? `${hint}\n\n` : ""
-          }Test results:\n\`\`\`\n${testDetails}\n\`\`\`\n\nFile ${filePath}\n\`\`\`\n${fileContent}\n\`\`\`\n`,
+          content: [
+            hint ? `${hint}\n\n` : "",
+            otherFiles.length
+              ? `Other files fixed:\n\`\`\`\n${otherFiles.join(
+                  "\n"
+                )}\n\`\`\`\n\n`
+              : "",
+            `Test results:\n\`\`\`\n${testDetails}\n\`\`\`\`\n\n`,
+            `File to fix: ${filePath}\n\`\`\`\n${fileContent}\n\`\`\``,
+          ].join(""),
         },
       ],
       model
     );
 
     if (!rawFile) {
+      console.log(chalk.red("failed to heal, raw text", rawFile));
       return {
         filePath,
         healDescription: "Unable to heal file",
@@ -58,17 +67,19 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const promptMessages: ChatCompletionRequestMessage[] = [
   {
     role: "system",
-    content:
-      "You are an expert typescript programming assistant. You reply in a very structured format when specified",
+    content: "You are an expert typescript programming assistant.",
   },
   {
     role: "user",
     content:
       "I will give you the results of a unit test run and a suspected file" +
       " that may be contributing to the failed test. The file may only be contributing" +
-      " to some or none of the failing tests which you will take into account when fixing the file. Add a comment explaining each change in the fixed file prefixed with [autoheal]" +
+      " to some or none of the failing tests which you will take into account when fixing the file. " +
+      "You may be given a list of other files already fixed by other agents, take this into account when deciding whether to fix the file or not. " +
+      "Add a comment explaining each change in the fixed file prefixed with @autoheal" +
       "You will only reply with a very brief" +
-      " description of the possible issue (in past tense) and the content of the fixed file between the triple backticks.",
+      " description of the possible issue (in past tense) and the content of the fixed file between the triple backticks." +
+      "The fixed file should conform to style and format of the file and should try to ac.",
   },
   {
     role: "assistant",
@@ -216,7 +227,7 @@ export class Order {
     this.lineItems = lineItems;
   }
 
-  /* [autoheal] Fixed \`Order.addLineItem\` implementation */
+  /* @autoheal Fixed \`Order.addLineItem\` implementation */
   addLineItem(lineItem: LineItem) {
     this.lineItems.push(lineItem);
   }
