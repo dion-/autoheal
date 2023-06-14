@@ -12,7 +12,7 @@ import _ from "lodash";
 export async function scanProjectForForFilesToHeal(
   testDetails: string,
   hint: string,
-  model: "gpt-3.5-turbo" | "gpt-4"
+  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k"
 ) {
   const fileExtentions = [
     "js",
@@ -36,6 +36,7 @@ export async function scanProjectForForFilesToHeal(
   const possibleFilesToFix = findFilesToFix.stdout
     .split("\n")
     .filter((f) => f)
+    .filter((f) => f.indexOf(".next") === -1)
     .filter((f) => f.indexOf(".git") === -1)
     .filter((f) => f.indexOf("node_modules") === -1)
     .filter((f) => f.indexOf("test") === -1)
@@ -81,7 +82,7 @@ export async function scanProjectForForFilesToHeal(
 async function guessFilesBasedOnTestResults(
   testDetails: string,
   hint: string,
-  model: "gpt-3.5-turbo" | "gpt-4"
+  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k"
 ) {
   const response = await prompt(
     [
@@ -112,7 +113,7 @@ async function analyseFileListChunk(
   testDetails: string,
   hint: string,
   possibleFilesToFix: string[],
-  model: "gpt-3.5-turbo" | "gpt-4"
+  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k"
 ) {
   const response = await prompt(
     [

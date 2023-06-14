@@ -8,7 +8,7 @@ export async function healFile(
   otherFiles: string[],
   testDetails: string,
   hint: string,
-  model: "gpt-3.5-turbo" | "gpt-4"
+  model: "gpt-3.5-turbo" | "gpt-3.5-turbo-16k" | "gpt-4"
 ) {
   const fileContent = readFileSync(filePath, { encoding: "utf-8" });
 

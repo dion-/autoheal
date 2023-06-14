@@ -36,7 +36,7 @@ export async function run({
   model,
   testCommand,
 }: {
-  model: "gpt-3.5-turbo" | "gpt-4";
+  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k";
   testCommand: string;
 }) {
   if (numberOfRuns > runLimit) {

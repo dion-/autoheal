@@ -3,7 +3,7 @@ import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
 
 export async function prompt(
   messages: ChatCompletionRequestMessage[],
-  model: "gpt-3.5-turbo" | "gpt-4"
+  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k"
 ) {
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY as string,
