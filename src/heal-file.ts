@@ -42,7 +42,8 @@ export async function healFile(
     }
 
     const [healDescription, newFileRaw] = rawFile.split("```");
-    const newFile = newFileRaw.replace("\n", ""); // Replace first newline
+    let newFile = newFileRaw.replace("\n", ""); // Replace first newline
+    newFile = removeMarkdown(newFile);
 
     if (newFile) {
       writeFileSync(filePath, newFile || "");
@@ -60,6 +61,31 @@ export async function healFile(
       healDescription: "Unable to heal file",
     };
   }
+}
+
+/**
+ * Remove markdown syntax highlighting
+ */
+function removeMarkdown(rawFile: string) {
+  const fileTypes = [
+    "tsx",
+    "typescript",
+    "javascript",
+    "tsx",
+    "php",
+    "python",
+    "ruby",
+    "json",
+  ];
+
+  // Remove the first set of characters that match a file type
+  for (const type of fileTypes) {
+    if (rawFile.startsWith(type)) {
+      return rawFile.replace(type, "");
+    }
+  }
+
+  return rawFile;
 }
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

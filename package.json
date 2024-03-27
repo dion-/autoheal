@@ -1,6 +1,6 @@
 {
   "name": "autoheal",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "GPT Test driven development. Automatically fix tests and guide GPT to write and fix code using your tests.",
   "main": "dist/index.js",
   "type": "module",
