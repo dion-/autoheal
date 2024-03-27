@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/dion-/autoheal/6aa72b7e5c1f7a72d93a16aed8e8c08265d10dfa/autoheal.png" width="130" alt="Autoheal Logo" />
-</p>
-
 # autoheal CLI
 
 Auto GPT Agent which automatically fixes code based on failing tests.
