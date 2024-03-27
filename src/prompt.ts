@@ -1,9 +1,10 @@
 import chalk from "chalk";
 import { Configuration, OpenAIApi, ChatCompletionRequestMessage } from "openai";
+import { languageModels } from "./llm-models.js";
 
 export async function prompt(
   messages: ChatCompletionRequestMessage[],
-  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k"
+  model: keyof typeof languageModels
 ) {
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY as string,

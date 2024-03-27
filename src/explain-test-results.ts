@@ -1,8 +1,9 @@
+import { LanguageModelName } from "./llm-models.js";
 import { prompt } from "./prompt.js";
 
 export async function explainTestResults(
   testDetails: string,
-  model: "gpt-3.5-turbo" | "gpt-3.5-turbo-16k" | "gpt-4"
+  model: LanguageModelName
 ) {
   const explanation = await prompt(
     [

@@ -2,13 +2,14 @@ import chalk from "chalk";
 import { prompt } from "./prompt.js";
 import { readFileSync, writeFileSync } from "fs";
 import { ChatCompletionRequestMessage } from "openai";
+import type { LanguageModelName } from "./llm-models.js";
 
 export async function healFile(
   filePath: string,
   otherFiles: string[],
   testDetails: string,
   hint: string,
-  model: "gpt-3.5-turbo" | "gpt-3.5-turbo-16k" | "gpt-4"
+  model: LanguageModelName
 ) {
   const fileContent = readFileSync(filePath, { encoding: "utf-8" });
 

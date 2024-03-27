@@ -1,6 +1,7 @@
 import { prompt } from "./prompt.js";
 import { $, execa } from "execa";
 import _ from "lodash";
+import { LanguageModelName } from "./llm-models.js";
 
 /**
  * Provide GPT a list of files, the test results and ask it to return the files that are likely to be causing the test failures.
@@ -12,7 +13,7 @@ import _ from "lodash";
 export async function scanProjectForForFilesToHeal(
   testDetails: string,
   hint: string,
-  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k"
+  model: LanguageModelName
 ) {
   const fileExtentions = [
     "js",
@@ -82,7 +83,7 @@ export async function scanProjectForForFilesToHeal(
 async function guessFilesBasedOnTestResults(
   testDetails: string,
   hint: string,
-  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k"
+  model: LanguageModelName
 ) {
   const response = await prompt(
     [
@@ -113,7 +114,7 @@ async function analyseFileListChunk(
   testDetails: string,
   hint: string,
   possibleFilesToFix: string[],
-  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k"
+  model: LanguageModelName
 ) {
   const response = await prompt(
     [

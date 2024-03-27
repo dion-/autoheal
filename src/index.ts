@@ -4,6 +4,7 @@ import inquirer from "inquirer";
 import { run } from "./run.js";
 import { renderTitle } from "./render-title.js";
 import chalk from "chalk";
+import { languageModels } from "./llm-models.js";
 
 const program = new Command();
 renderTitle();
@@ -33,20 +34,10 @@ program
         type: "list",
         name: "model",
         message: "Which OpenAI model?",
-        choices: [
-          {
-            name: "gpt-3.5-turbo-16k",
-            value: "gpt-3.5-turbo-16k",
-          },
-          {
-            name: "gpt-4 (account access required)",
-            value: "gpt-4",
-          },
-          {
-            name: "gpt-3.5-turbo",
-            value: "gpt-3.5-turbo",
-          },
-        ],
+        choices: Object.keys(languageModels).map((key) => ({
+          name: key,
+          value: key,
+        })),
       },
     ];
     if (noApiKeyDetected) {

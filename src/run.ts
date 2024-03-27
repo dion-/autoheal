@@ -6,6 +6,7 @@ import { runTests } from "./run-tests.js";
 import inquirer from "inquirer";
 import * as readline from "readline";
 import { explainTestResults } from "./explain-test-results.js";
+import { LanguageModelName } from "./llm-models.js";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -36,7 +37,7 @@ export async function run({
   model,
   testCommand,
 }: {
-  model: "gpt-3.5-turbo" | "gpt-4" | "gpt-3.5-turbo-16k";
+  model: LanguageModelName;
   testCommand: string;
 }) {
   if (numberOfRuns > runLimit) {
@@ -53,7 +54,7 @@ export async function run({
   const testRunSpinner = ora(
     `Running tests...\n ${chalk.dim.italic(`$ ${testCommand}`)}`
   ).start();
-  const testRun = await runTests(testCommand, model);
+  const testRun = await runTests(testCommand);
 
   if (testRun.passes) {
     testRunSpinner.succeed(chalk.green("Tests passed."));
