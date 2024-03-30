@@ -69,14 +69,16 @@ export async function healFile(
  */
 function removeMarkdown(rawFile: string) {
   const fileTypes = [
+    "jsx",
     "tsx",
     "typescript",
     "javascript",
-    "tsx",
+    "ts",
     "php",
     "python",
     "ruby",
     "json",
+    "js",
   ];
 
   // Remove the first set of characters that match a file type
